@@ -198,7 +198,7 @@ if __name__ == "__main__":
     parser.add_argument('--num-classes', type=int, default='20', help='number of classes')
 
     # 数据集的根目录(VOCdevkit)
-    parser.add_argument('--data-path', default='/data/', help='dataset root')
+    parser.add_argument('--data-path', default='./', help='dataset root')
 
     # 训练好的权重文件
     parser.add_argument('--weights-path', default='./save_weights/model.pth', type=str, help='training weights')
