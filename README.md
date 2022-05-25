@@ -1,1 +1,1 @@
-# FasterRCNN-resnet50FPN
+# FasterRCNN-XXX_FPN
