@@ -156,7 +156,7 @@ def mobilenet_v3_large_fpn_backbone():
                                         out_channels=256,
                                         extra_blocks=LastLevelMaxPool(),
                                         re_getter=False)
-    return  mobilenet_v3_large_fpn_backbone;
+    return  mobilenet_v3_large_fpn_backbone
     
 def resnet50_fpn_backbone(pretrain_path="",
                           norm_layer=FrozenBatchNorm2d,  # FrozenBatchNorm2d的功能与BatchNorm2d类似，但参数无法更新
