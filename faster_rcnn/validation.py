@@ -12,7 +12,7 @@ import numpy as np
 
 import transforms
 from network_files import FasterRCNN
-from backbone import resnet50_fpn_backbone
+from backbone import resnet50_fpn_backbone, mobilenet_v3_large_fpn_backbone
 from my_dataset import VOCDataSet
 from train_utils import get_coco_api_from_dataset, CocoEvaluator
 
@@ -127,6 +127,7 @@ def main(parser_data):
     # create model num_classes equal background + 20 classes
     # 注意，这里的norm_layer要和训练脚本中保持一致
     backbone = resnet50_fpn_backbone(norm_layer=torch.nn.BatchNorm2d)
+    backbone = mobilenet_v3_large_fpn_backbone()
     model = FasterRCNN(backbone=backbone, num_classes=parser_data.num_classes + 1)
 
     # 载入你自己训练好的模型权重
