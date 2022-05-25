@@ -133,7 +133,31 @@ def overwrite_eps(model, eps):
         if isinstance(module, FrozenBatchNorm2d):
             module.eps = eps
 
+def mobilenet_v3_large_fpn_backbone():
+    import torchvision
+    from torchvision.models.feature_extraction import create_feature_extractor
 
+    # --- mobilenet_v3_large fpn backbone --- #
+    backbone = torchvision.models.mobilenet_v3_large(pretrained=True)
+    # print(backbone)
+    return_layers = {"features.6": "0",   # stride 8
+                     "features.12": "1",  # stride 16
+                     "features.16": "2"}  # stride 32
+    # 提供给fpn的每个特征层channel
+    in_channels_list = [40, 112, 960]
+    new_backbone = create_feature_extractor(backbone, return_layers)
+    # img = torch.randn(1, 3, 224, 224)
+    # outputs = new_backbone(img)
+    # [print(f"{k} shape: {v.shape}") for k, v in outputs.items()]
+
+    backbone_with_fpn = BackboneWithFPN(new_backbone,
+                                        return_layers=return_layers,
+                                        in_channels_list=in_channels_list,
+                                        out_channels=256,
+                                        extra_blocks=LastLevelMaxPool(),
+                                        re_getter=False)
+    return  mobilenet_v3_large_fpn_backbone;
+    
 def resnet50_fpn_backbone(pretrain_path="",
                           norm_layer=FrozenBatchNorm2d,  # FrozenBatchNorm2d的功能与BatchNorm2d类似，但参数无法更新
                           trainable_layers=3,
